@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Atlas · Documentación interactiva de PostgreSQL</title>
+<meta name="description" content="SQL Atlas: plataforma educativa interactiva de PostgreSQL organizada en módulos, con progreso, roadmap y ejemplos ejecutados.">
+<meta name="author" content="Nelson Leonardo Páez Arias">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/design-system.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+<a href="#app-content" class="skip-link">Saltar al contenido</a>
+
+<!-- ============================================================
+     SPRITE DE ÍCONOS — fusión sin duplicados de los sprites del
+     dashboard y del módulo original. Fuente editable en
+     assets/icons/sprite.svg; se inlinea aquí porque abrir el
+     proyecto con doble clic (protocolo file://) no permite que
+     <use> resuelva referencias a un SVG externo de forma fiable
+     en todos los navegadores.
+     ============================================================ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <defs>
+    <symbol id="i-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2.5l8 4.2v10.6l-8 4.2-8-4.2V6.7z"/><path d="M4 6.7l8 4.2 8-4.2M12 10.9v10.6"/>
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20.5 20.5"/>
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v3M12 18.5v3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M2.5 12h3M18.5 12h3M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/>
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/>
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 6h16M4 12h16M4 18h16"/>
+    </symbol>
+    <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5M6 11l6-6 6 6"/>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14M13 6l6 6-6 6"/>
+    </symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 6l6 6-6 6"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 12l6 6L20 6"/>
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="10.5" width="14" height="9.5" rx="1.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>
+    </symbol>
+    <symbol id="i-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 4L7 20M17 4l-2 16M4 9h16M3 15h16"/>
+    </symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 4l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".5" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3a9 9 0 0 0-2.85 17.54c.45.08.6-.2.6-.43v-1.7c-2.5.55-3.03-1.09-3.03-1.09-.41-1.05-1-1.32-1-1.32-.82-.56.06-.55.06-.55.9.06 1.38.93 1.38.93.8 1.38 2.11.98 2.63.75.08-.58.32-.98.57-1.21-2-.23-4.1-1-4.1-4.45 0-.98.35-1.79.92-2.42-.09-.23-.4-1.15.09-2.4 0 0 .76-.24 2.48.92a8.5 8.5 0 0 1 4.5 0c1.72-1.16 2.48-.92 2.48-.92.49 1.25.18 2.17.09 2.4.57.63.92 1.44.92 2.42 0 3.46-2.1 4.22-4.11 4.44.33.29.62.85.62 1.72v2.55c0 .24.15.51.61.43A9 9 0 0 0 12 3z"/>
+    </symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="M7.8 10v6.2M7.8 7.6v.1M11.6 16.2V10M11.6 12.6c0-1.4 1-2.6 2.4-2.6 1.6 0 2.4 1.1 2.4 2.9v3.3"/>
+    </symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v18M6 7h12M6 7l-3 6h6l-3-6zM18 7l-3 6h6l-3-6z"/>
+    </symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 21V4M5 4h13l-3 3.5L18 11H5"/>
+    </symbol>
+    <symbol id="i-mod-fundamentos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9.5 9.5v10"/>
+    </symbol>
+    <symbol id="i-mod-filtros" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 5h16l-6 7.5v5L10 20v-7.5z"/>
+    </symbol>
+    <symbol id="i-mod-funciones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 4H7.5A2.5 2.5 0 0 0 5 6.5V9M5 9H3M5 9v9.5A2.5 2.5 0 0 0 7.5 21H9M15 4h1.5A2.5 2.5 0 0 1 19 6.5V9M19 9h2M19 9v9.5a2.5 2.5 0 0 1-2.5 2.5H15"/><path d="M9.5 15l2-6M8.5 9l1 6"/>
+    </symbol>
+    <symbol id="i-mod-agrupaciones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="4" width="7" height="7" rx="1.2"/><rect x="13" y="4" width="7" height="7" rx="1.2"/><rect x="4" y="13" width="7" height="7" rx="1.2"/><rect x="13" y="13" width="7" height="7" rx="1.2"/>
+    </symbol>
+    <symbol id="i-mod-joins" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9.5" cy="12" r="6"/><circle cx="15" cy="12" r="6" opacity=".5"/>
+    </symbol>
+    <symbol id="i-mod-subconsultas" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 3C6.5 5 6.5 9 9 12c2.5 3 2.5 7 0 9M15 3c2.5 2 2.5 6 0 9c-2.5 3-2.5 7 0 9"/>
+    </symbol>
+    <symbol id="i-mod-vistas" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/>
+    </symbol>
+    <symbol id="i-mod-mvistas" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.4"/><path d="M18.5 5.5v3h-3"/>
+    </symbol>
+    <symbol id="i-mod-indices" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 3.5h9l3 3V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4"/>
+    </symbol>
+    <symbol id="i-mod-plpgsql" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4.5" width="18" height="15" rx="1.8"/><path d="M7.5 10l2.5 2.5-2.5 2.5M12.5 15h4"/>
+    </symbol>
+    <symbol id="i-mod-triggers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12.5 2.5l-7 11h5l-1 8 8-11.5h-5.5z"/>
+    </symbol>
+    <symbol id="i-mod-final" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 21V4M5 4h13l-3 3.5L18 11H5"/>
+    </symbol>
+    <symbol id="i-mod-insert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17"/><path d="M12 12.3v4M10 14.3h4"/>
+    </symbol>
+    <symbol id="i-mod-update" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 20h4L18.4 9.6a1.98 1.98 0 0 0-2.8-2.8L5 17.4z"/><path d="M14.4 7.6l2.8 2.8"/>
+    </symbol>
+    <symbol id="i-mod-delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M7 7l1 13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-13"/><path d="M10 11v6M14 11v6"/>
+    </symbol>
+    <symbol id="i-mod-createtable" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9.5 9.5v10M14.5 9.5v10"/>
+    </symbol>
+    <symbol id="i-mod-constraints" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="8" cy="8" r="3.2"/><path d="M10.3 10.3L20 20M16.5 16.5l2.2-2.2M13.7 13.7l2.2-2.2"/>
+    </symbol>
+    <symbol id="i-mod-alter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.7 6.3a4 4 0 0 0-5.2 5.2L4 16.9 7 20l5.4-5.4a4 4 0 0 0 5.2-5.2l-2.5 2.5-2.2-.3-.3-2.2z"/>
+    </symbol>
+    <symbol id="i-mod-transaction" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 8h13M14 5l3 3-3 3M20 16H7M10 13l-3 3 3 3"/>
+    </symbol>
+    <symbol id="i-mod-roles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0M14.5 11.5l2 2 4-4"/>
+    </symbol>
+    <symbol id="i-mod-sets" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9.5" cy="12" r="6" fill="currentColor" fill-opacity=".22"/><circle cx="15" cy="12" r="6" fill="currentColor" fill-opacity=".22"/>
+    </symbol>
+    <symbol id="i-mod-cte" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="8" height="6" rx="1.2"/><rect x="13" y="14" width="8" height="6" rx="1.2"/><path d="M7 10v4a2 2 0 0 0 2 2h4"/>
+    </symbol>
+    <symbol id="i-mod-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><rect x="3.5" y="9.5" width="17" height="5" fill="currentColor" fill-opacity=".25" stroke="none"/><path d="M3.5 9.5h17M3.5 14.5h17"/>
+    </symbol>
+    <symbol id="i-select" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9.5 9.5v10"/>
+    </symbol>
+    <symbol id="i-from" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/>
+    </symbol>
+    <symbol id="i-distinct" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9.5" cy="12" r="6"/><circle cx="15" cy="12" r="6" opacity=".45"/>
+    </symbol>
+    <symbol id="i-orderby" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 6h13M6 12h9M6 18h5"/>
+    </symbol>
+    <symbol id="i-ascdesc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 15l0-11M8 4l-3 3M8 4l3 3"/><path d="M16 9l0 11M16 20l-3-3M16 20l3-3"/>
+    </symbol>
+    <symbol id="i-limit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 4H5v16h3M16 4h3v16h-3"/><path d="M9 12h6"/>
+    </symbol>
+    <symbol id="i-where" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 5h16l-6 7.5v5L10 20v-7.5z"/>
+    </symbol>
+    <symbol id="i-ops" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 9h14M5 15h14"/>
+    </symbol>
+    <symbol id="i-between" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 4v16M18 4v16"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="12" r="1"/>
+    </symbol>
+    <symbol id="i-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 7h9M5 12h9M5 17h5"/><path d="M17 15l2 2 3-4"/>
+    </symbol>
+    <symbol id="i-like" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20.5 20.5"/>
+    </symbol>
+    <symbol id="i-isnull" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="7.5"/><path d="M7 17L17 7"/>
+    </symbol>
+    <symbol id="i-func-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 7V5.5h12V7M12 5.5V19M9.5 19h5"/>
+    </symbol>
+    <symbol id="i-func-num" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 4H5v5M17 4h2v5M7 20H5v-5M17 20h2v-5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-func-date" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="5.5" width="16" height="15" rx="1.8"/><path d="M4 10h16M8 3.5v3M16 3.5v3"/>
+    </symbol>
+    <symbol id="i-func-cast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="8" cy="9" r="1.3" fill="currentColor" stroke="none"/><circle cx="8" cy="15" r="1.3" fill="currentColor" stroke="none"/><circle cx="17" cy="9" r="1.3" fill="currentColor" stroke="none"/><circle cx="17" cy="15" r="1.3" fill="currentColor" stroke="none"/><path d="M11 12h5"/>
+    </symbol>
+    <symbol id="i-agg-func" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 5h11l-5.5 6.5L17 18H6"/>
+    </symbol>
+    <symbol id="i-join-inner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9.5" cy="12" r="6"/><circle cx="15" cy="12" r="6"/><circle cx="12.2" cy="12" r="2.3" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-join-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9.5" cy="12" r="6" fill="currentColor" fill-opacity=".35"/><circle cx="15" cy="12" r="6"/>
+    </symbol>
+    <symbol id="i-join-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9.5" cy="12" r="6"/><circle cx="15" cy="12" r="6" fill="currentColor" fill-opacity=".35"/>
+    </symbol>
+    <symbol id="i-join-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9.5" cy="12" r="6" fill="currentColor" fill-opacity=".35"/><circle cx="15" cy="12" r="6" fill="currentColor" fill-opacity=".35"/>
+    </symbol>
+    <symbol id="i-join-self" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="3"/>
+    </symbol>
+    <symbol id="i-join-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="7" cy="7" r="2.1"/><circle cx="17" cy="7" r="2.1"/><circle cx="7" cy="17" r="2.1"/><circle cx="17" cy="17" r="2.1"/><path d="M8.6 8.6l6.8 6.8M15.4 8.6l-6.8 6.8"/>
+    </symbol>
+    <symbol id="i-sub-exists" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="7"/><path d="M7.8 11.3l2.1 2.1 4.3-4.8"/><path d="M18.5 18.5l3 3"/>
+    </symbol>
+    <symbol id="i-view-replace" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12a7 7 0 0 1 12-4.9M19 12a7 7 0 0 1-12 4.9"/><path d="M17 4v4h-4M7 20v-4h4"/>
+    </symbol>
+    <symbol id="i-view-drop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M7 7l1 13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-13"/><path d="M10 11v6M14 11v6"/>
+    </symbol>
+    <symbol id="i-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="10.5" width="14" height="9.5" rx="1.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.4-2.1"/>
+    </symbol>
+    <symbol id="i-idx-composite" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="4" width="14" height="6" rx="1.3"/><rect x="5" y="14" width="14" height="6" rx="1.3"/>
+    </symbol>
+    <symbol id="i-plpgsql-if" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v6M12 9l-6 6v6M12 9l6 6v6"/>
+    </symbol>
+    <symbol id="i-toggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="8.5" width="18" height="10" rx="5"/><circle cx="8" cy="13.5" r="3.1" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="12" height="12" rx="1.5"/><path d="M5 15V4.5A1.5 1.5 0 0 1 6.5 3H15"/>
+    </symbol>
+    <symbol id="i-select-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 9V5.5A1.5 1.5 0 0 1 5.5 4H9M15 4h3.5A1.5 1.5 0 0 1 20 5.5V9M20 15v3.5a1.5 1.5 0 0 1-1.5 1.5H15M9 20H5.5A1.5 1.5 0 0 1 4 18.5V15"/>
+    </symbol>
+    <symbol id="i-do" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 12l4 4L20 5"/>
+    </symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 4l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".5" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.8 1 .8 1.6v.5h5.4v-.5c0-.6.3-1.2.8-1.6A6 6 0 0 0 12 3z"/>
+    </symbol>
+    <symbol id="i-empty" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"/><path d="M8 15l8-8"/>
+    </symbol>
+    <symbol id="i-result" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 5h16M4 5v14h16V5M4 10h16M9 10v9"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<div id="progressBar" role="progressbar" aria-label="Progreso de lectura" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+<!-- ============================================================
+     HEADER — única instancia en toda la aplicación. La navegación
+     principal no usa anclas de hash (el hash lo controla el router
+     SPA); en su lugar dispara scroll dentro del Dashboard vía
+     data-scroll, o navegación de vista vía data-route-link.
+     ============================================================ -->
+<header class="site-header">
+  <div class="site-header__inner">
+    <button class="icon-btn nav-toggle" id="navToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobileNav">
+      <svg aria-hidden="true"><use href="#i-menu"/></svg>
+    </button>
+    <button class="brand" data-route-link href="#/">
+      <span class="brand__mark"><svg aria-hidden="true"><use href="#i-logo"/></svg></span>
+      <span class="brand__name">SQL <b>Atlas</b></span>
+    </button>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <button data-scroll="dashboard">Inicio</button>
+      <button data-scroll="modulos">Módulos</button>
+      <button data-scroll="ruta">Ruta</button>
+      <button data-scroll="caracteristicas">Consejos</button>
+      <a href="#/playground" data-route-link>Playground</a>
+    </nav>
+    <div class="header-actions">
+      <div class="search-field global-search">
+        <svg class="icon-search" aria-hidden="true"><use href="#i-search"/></svg>
+        <input type="search" id="moduleSearch" placeholder="Buscar un módulo…" aria-label="Buscar">
+        <kbd>/</kbd>
+      </div>
+      <a class="icon-btn social" href="https://github.com/leonararias23-beep" target="_blank" rel="noopener noreferrer" aria-label="Perfil de GitHub del autor">
+        <svg aria-hidden="true"><use href="#i-github"/></svg>
+      </a>
+      <a class="icon-btn social" href="https://www.linkedin.com/in/nelson-leonardo-paez-arias-b77865418" target="_blank" rel="noopener noreferrer" aria-label="Perfil de LinkedIn del autor">
+        <svg aria-hidden="true"><use href="#i-linkedin"/></svg>
+      </a>
+      <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre modo claro y oscuro" aria-pressed="false">
+        <svg class="i-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="i-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Navegación móvil">
+    <button data-scroll="dashboard">Inicio</button>
+    <button data-scroll="modulos">Módulos</button>
+    <button data-scroll="ruta">Ruta</button>
+    <button data-scroll="caracteristicas">Características</button>
+    <a href="#/playground" data-route-link>Playground</a>
+  </nav>
+</header>
+
+<!-- ============================================================
+     BREADCRUMB — su contenido lo reescribe App.router en cada
+     navegación; aquí solo existe el contenedor.
+     ============================================================ -->
+<div class="breadcrumb-bar">
+  <div class="wrap">
+    <nav class="breadcrumb" id="breadcrumb" aria-label="Ruta de navegación"></nav>
+  </div>
+</div>
+
+<!-- ============================================================
+     CONTENIDO — App.router reemplaza esto por completo en cada
+     cambio de ruta. Nunca se recarga la página.
+     ============================================================ -->
+<main id="app-content"></main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>SQL Atlas</h4>
+        <p>Plataforma de referencia para aprender PostgreSQL con ejemplos ejecutados, construida como proyecto de portafolio en HTML, CSS y JavaScript sin frameworks.</p>
+        <p><strong>Tecnologías:</strong> HTML5 · CSS3 · JavaScript Vanilla</p>
+      </div>
+      <div class="footer-col">
+        <h4>Proyecto</h4>
+        <ul>
+          <li><button data-scroll="modulos" style="background:none;border:none;padding:0;font:inherit;cursor:pointer;color:inherit;text-align:left;">Módulos</button></li>
+          <li><button data-scroll="ruta" style="background:none;border:none;padding:0;font:inherit;cursor:pointer;color:inherit;text-align:left;">Ruta de aprendizaje</button></li>
+          <li><button data-scroll="caracteristicas" style="background:none;border:none;padding:0;font:inherit;cursor:pointer;color:inherit;text-align:left;">Consejos</button></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Autor</h4>
+        <ul>
+          <li>Nelson Leonardo Páez Arias</li>
+          <li><a href="https://github.com/leonararias23-beep" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-github"/></svg> GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/nelson-leonardo-paez-arias-b77865418" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-linkedin"/></svg> LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SQL Atlas · versión 1.0 · proyecto educativo sin fines comerciales.</span>
+      <span style="display:flex; align-items:center; gap:5px;"><svg aria-hidden="true" style="width:12px;height:12px;"><use href="#i-scale"/></svg> Licencia MIT</span>
+    </div>
+  </div>
+</footer>
+
+<button id="backToTop" aria-label="Volver arriba">
+  <svg aria-hidden="true"><use href="#i-up"/></svg>
+</button>
+
+<!-- ============================================================
+     SCRIPTS — scripts clásicos (sin type="module") a propósito:
+     los módulos ES fallan por CORS al abrir un archivo con
+     doble clic (protocolo file://) en varios navegadores. En su
+     lugar, cada archivo se cuelga de un único namespace global
+     window.App. El orden importa: state/utilidades primero,
+     luego el registro y el contenido de cada módulo, luego las
+     vistas que los consumen, y router + app al final.
+     ============================================================ -->
+<script src="assets/js/state.js"></script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/reveal.js"></script>
+<script src="assets/js/search.js"></script>
+<script src="assets/js/progress.js"></script>
+<script src="assets/js/codeblocks.js"></script>
+<script src="assets/js/exercises.js"></script>
+<script src="assets/js/sql-engine.js"></script>
+
+<script src="modules/registry.js"></script>
+<script src="modules/fundamentos-sql/content.js"></script>
+<script src="modules/filtrado-de-datos/content.js"></script>
+<script src="modules/funciones/content.js"></script>
+<script src="modules/agrupaciones/content.js"></script>
+<script src="modules/joins/content.js"></script>
+<script src="modules/subconsultas/content.js"></script>
+<script src="modules/operaciones-conjuntos/content.js"></script>
+<script src="modules/ctes/content.js"></script>
+<script src="modules/funciones-ventana/content.js"></script>
+<script src="modules/insertar/content.js"></script>
+<script src="modules/actualizar/content.js"></script>
+<script src="modules/eliminar/content.js"></script>
+<script src="modules/crear-tablas/content.js"></script>
+<script src="modules/restricciones/content.js"></script>
+<script src="modules/alterar-tablas/content.js"></script>
+<script src="modules/vistas/content.js"></script>
+<script src="modules/materialized-views/content.js"></script>
+<script src="modules/indices/content.js"></script>
+<script src="modules/transacciones/content.js"></script>
+<script src="modules/roles-permisos/content.js"></script>
+<script src="modules/plpgsql/content.js"></script>
+<script src="modules/triggers/content.js"></script>
+<script src="modules/playground/data.js"></script>
+
+<script src="modules/dashboard/view.js"></script>
+<script src="modules/module-view.js"></script>
+<script src="modules/playground/view.js"></script>
+
+<script src="assets/js/router.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

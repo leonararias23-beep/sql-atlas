@@ -1,0 +1,242 @@
+/* ============================================================
+   DESIGN SYSTEM — fuente de verdad visual de toda la plataforma.
+   Un único :root, un único set de componentes atómicos (botones,
+   badges, paneles, alertas, tablas). Cualquier vista o módulo
+   nuevo consume estas clases; nunca define las suyas propias.
+   ============================================================ */
+:root{
+  --paper:#EDF1F3;
+  --surface:#FFFFFF;
+  --surface-2:#F4F7F8;
+  --ink:#101B24;
+  --ink-2:#48565F;
+  --ink-3:#8A97A0;
+  --rule:#D7DEE3;
+  --brand:#2C5F7C;
+  --brand-dark:#1D4256;
+  --brand-tint:#E7F0F4;
+  --brand-2:#C77B3B;
+  --code-bg:#0F1720;
+  --code-panel:#0B121A;
+  --code-ink:#DCE6EA;
+  --code-key:#7FB0C4;
+  --code-str:#C8935B;
+  --ok:#3F7D5C;
+  --ok-tint:#EEF6F1;
+  --danger:#B84C4C;
+  --warn:#C77B3B;
+  --warn-tint:#FBF1E6;
+  --radius-sm:4px;
+  --radius:8px;
+  --radius-lg:16px;
+  --shadow-1:0 1px 2px rgba(16,27,36,.06);
+  --shadow-2:0 6px 20px rgba(16,27,36,.08);
+  --shadow-3:0 16px 40px rgba(16,27,36,.12);
+  --header-h:58px;
+  --crumb-h:38px;
+  --progress-h:3px;
+  --max-w:1220px;
+}
+[data-theme="dark"]{
+  --paper:#0B1117;
+  --surface:#121A22;
+  --surface-2:#16202A;
+  --ink:#E7EEF2;
+  --ink-2:#AAB8C2;
+  --ink-3:#697985;
+  --rule:#233140;
+  --brand:#7FB6D6;
+  --brand-dark:#A9D3E8;
+  --brand-tint:#16232C;
+  --brand-2:#E2A263;
+  --code-bg:#080D12;
+  --code-panel:#050A0E;
+  --code-ink:#DCE6EA;
+  --code-key:#89C1D8;
+  --code-str:#E2A263;
+  --ok:#6FCB9B;
+  --ok-tint:#132420;
+  --danger:#E38080;
+  --warn:#E2A263;
+  --warn-tint:#241C10;
+  --shadow-1:0 1px 2px rgba(0,0,0,.3);
+  --shadow-2:0 10px 30px rgba(0,0,0,.45);
+  --shadow-3:0 20px 50px rgba(0,0,0,.55);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'IBM Plex Sans', sans-serif; font-size:15px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{line-height:1.25; letter-spacing:-.01em; margin:0;}
+code, .mono{font-family:'IBM Plex Mono', monospace;}
+a{color:inherit;}
+svg{display:block;}
+::selection{background:var(--brand); color:#fff;}
+:focus-visible{outline:2px solid var(--brand-2); outline-offset:2px; border-radius:2px;}
+
+.skip-link{
+  position:absolute; left:8px; top:-48px; background:var(--brand-dark); color:#fff;
+  padding:10px 16px; border-radius:var(--radius-sm); z-index:300;
+  transition:top .15s ease; font-size:13px; text-decoration:none;
+}
+.skip-link:focus{top:8px;}
+
+.wrap{max-width:var(--max-w); margin:0 auto; padding:0 32px;}
+@media (max-width:720px){ .wrap{padding:0 18px;} }
+
+mark{
+  background:color-mix(in srgb, var(--brand-2) 35%, transparent);
+  color:inherit; border-radius:2px; padding:0 1px;
+}
+.sr-only{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+/* ============================================================
+   COMPONENTES ATÓMICOS: botones, badges, paneles, alertas,
+   barra de progreso, animación de aparición al hacer scroll
+   ============================================================ */
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:inherit; font-size:13.5px; font-weight:600;
+  padding:10px 18px; border-radius:var(--radius-sm);
+  text-decoration:none; cursor:pointer; border:1px solid transparent;
+  transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+.btn svg{width:14px; height:14px;}
+/* display:inline-flex anula el atributo [hidden]; lo restauramos para que
+   los botones ocultos (p. ej. "Reintentar" antes de verificar) no se vean. */
+.btn[hidden]{display:none;}
+.btn:hover{transform:translateY(-1px);}
+.btn-primary{background:var(--brand-dark); color:#fff; box-shadow:var(--shadow-1);}
+.btn-primary:hover{box-shadow:var(--shadow-2);}
+.btn-secondary{background:var(--surface); color:var(--ink); border-color:var(--rule);}
+.btn-secondary:hover{border-color:var(--brand);}
+.btn-ghost{background:none; color:var(--brand-dark); padding:7px 8px;}
+.btn[aria-disabled="true"]{opacity:.5; cursor:not-allowed; transform:none !important; box-shadow:none !important;}
+
+.badge{
+  display:inline-flex; align-items:center; gap:5px;
+  font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+  padding:3px 9px; border-radius:20px; border:1px solid var(--rule);
+  color:var(--ink-2); white-space:nowrap;
+}
+.badge .dot{width:7px; height:7px; border-radius:50%; flex-shrink:0;}
+.lvl-basico{background:#3F7D5C;}
+.lvl-intermedio{background:#C77B3B;}
+.lvl-avanzado{background:#B84C4C;}
+
+.panel{
+  background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-1);
+}
+
+/* Glassmorphism ligero: reservado para paneles sobre el fondo con
+   textura del hero (welcome-panel, progress-panel). Deliberadamente
+   sutil — blur bajo, opacidad alta — para no sacrificar legibilidad. */
+.panel--glass{
+  background:color-mix(in srgb, var(--surface) 80%, transparent);
+  backdrop-filter:blur(16px) saturate(1.4);
+  -webkit-backdrop-filter:blur(16px) saturate(1.4);
+  border-color:color-mix(in srgb, var(--rule) 65%, transparent);
+}
+
+/* ---------- acentos de módulo ----------
+   Cada módulo del registro declara un accent (color) y un pattern
+   (motivo decorativo de esquina); .module-card los consume vía la
+   variable --accent, así que agregar un color nuevo es una sola
+   línea aquí, sin tocar la lógica de las tarjetas. */
+.accent-green{--accent:#22C55E;}
+.accent-cyan{--accent:#06B6D4;}
+.accent-purple{--accent:#A855F7;}
+.accent-amber{--accent:#F59E0B;}
+.accent-blue{--accent:#3B82F6;}
+.accent-indigo{--accent:#6366F1;}
+.accent-orange{--accent:#F97316;}
+.accent-pink{--accent:#EC4899;}
+.accent-lime{--accent:#65A30D;}
+.accent-fuchsia{--accent:#D946EF;}
+.accent-red{--accent:#EF4444;}
+
+.progress-track{
+  width:100%; height:7px; border-radius:20px; background:var(--surface-2);
+  overflow:hidden; border:1px solid var(--rule);
+}
+.progress-track__fill{
+  position:relative; height:100%; border-radius:20px;
+  background:linear-gradient(90deg, var(--brand), var(--brand-2));
+  transition:width .5s cubic-bezier(.22,.8,.3,1);
+}
+
+/* Versión "grande" de la barra: más alta, con brillo y un barrido de
+   luz continuo. Reservada al panel de progreso principal del
+   dashboard; las barras chicas de cada tarjeta quedan como estaban. */
+.progress-track--lg{
+  height:16px; box-shadow:inset 0 1px 3px rgba(0,0,0,.12);
+}
+.progress-track--lg .progress-track__fill{
+  box-shadow:0 0 14px 1px color-mix(in srgb, var(--brand) 55%, transparent);
+}
+.progress-track--lg .progress-track__fill::after{
+  content:""; position:absolute; inset:0; border-radius:20px;
+  background:linear-gradient(100deg, transparent 30%, color-mix(in srgb, #fff 60%, transparent) 48%, transparent 65%);
+  background-size:220% 100%;
+  animation:shimmer 2.6s ease-in-out infinite;
+}
+.progress-track--lg .progress-track__fill::before{
+  content:""; position:absolute; right:0; top:50%; width:9px; height:9px; border-radius:50%;
+  background:#fff; transform:translate(45%,-50%);
+  box-shadow:0 0 9px 2px color-mix(in srgb, var(--brand) 75%, transparent);
+}
+@keyframes shimmer{
+  0%{background-position:200% 0;}
+  100%{background-position:-40% 0;}
+}
+
+.alert{
+  display:flex; align-items:flex-start; gap:12px;
+  background:var(--warn-tint); border:1px solid color-mix(in srgb, var(--warn) 45%, var(--rule));
+  border-radius:var(--radius); padding:12px 16px; font-size:13px; color:var(--ink-2);
+}
+.alert svg{width:16px; height:16px; color:var(--warn); flex-shrink:0; margin-top:1px;}
+.alert strong{color:var(--ink);}
+.alert button{
+  margin-left:auto; background:none; border:none; color:var(--ink-3);
+  cursor:pointer; font-size:15px; line-height:1; padding:2px 6px; flex-shrink:0;
+}
+
+.reveal{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease;}
+.reveal.is-visible{opacity:1; transform:translateY(0);}
+
+.section{padding:52px 0;}
+@media (max-width:720px){ .section{padding:38px 0;} }
+.section-header{max-width:60ch; margin-bottom:26px;}
+.section-header h2{font-size:22px; margin:8px 0 8px 0;}
+.section-header p{margin:0; color:var(--ink-2); font-size:14px;}
+
+#progressBar{
+  position:fixed; top:0; left:0; height:var(--progress-h); width:0%;
+  background:linear-gradient(90deg, var(--brand), var(--brand-2));
+  z-index:220; transition:width .1s linear;
+}
+
+#backToTop{
+  position:fixed; right:22px; bottom:22px; z-index:90;
+  width:40px; height:40px; border-radius:50%;
+  background:var(--brand-dark); color:#fff; border:none;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; box-shadow:var(--shadow-2);
+  opacity:0; pointer-events:none; transform:translateY(8px);
+  transition:opacity .2s ease, transform .2s ease;
+}
+#backToTop.visible{opacity:1; pointer-events:auto; transform:translateY(0);}
+#backToTop svg{width:17px; height:17px;}
